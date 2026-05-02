@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemma4 AI | Intelligent Chat</title>
+    <meta name="description" content="Experience the power of Gemma4 AI Chatbot. Intelligent, fast, and feature-rich conversation.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">G</div>
+                    <span>Gemma4</span>
+                </div>
+                <button class="new-chat-btn" id="new-chat">
+                    <i class="fas fa-plus"></i> New Chat
+                </button>
+            </div>
+            
+            <div class="chat-history" id="chat-history">
+                <div class="history-item active">Current Conversation</div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">U</div>
+                    <span>Guest User</span>
+                </div>
+                <div class="settings-icons">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="main-chat">
+            <header class="chat-header">
+                <div class="model-info">
+                    <span class="badge">PRO</span>
+                    <h1>Gemma4:e4b</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="fas fa-share-nodes"></i></button>
+                    <button class="icon-btn"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+            </header>
+
+            <div class="messages-container" id="messages">
+                <!-- Welcome Message -->
+                <div class="message system-message">
+                    <div class="message-content">
+                        <div class="bot-avatar">G</div>
+                        <div class="text">
+                            <h2>Hello! I'm Gemma4.</h2>
+                            <p>How can I assist you today? I can help with coding, writing, research, or just a friendly chat.</p>
+                            <div class="suggestions">
+                                <button class="suggestion-chip">Write a Python script for data analysis</button>
+                                <button class="suggestion-chip">Explain quantum computing simply</button>
+                                <button class="suggestion-chip">Give me ideas for a Sci-Fi story</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="input-area">
+                <form id="chat-form" class="chat-input-container">
+                    <div class="input-wrapper">
+                        <textarea id="user-input" placeholder="Message Gemma4..." rows="1" required></textarea>
+                        <div class="input-actions">
+                            <button type="button" class="tool-btn"><i class="fas fa-paperclip"></i></button>
+                            <button type="submit" class="send-btn" id="send-btn">
+                                <i class="fas fa-arrow-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="disclaimer">Gemma4 can make mistakes. Check important info.</p>
+                </form>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
