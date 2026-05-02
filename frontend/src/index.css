@@ -306,10 +306,40 @@ body {
 .text pre {
     background: #1e1e1e;
     padding: 1rem;
-    border-radius: 8px;
-    margin: 1rem 0;
+    border-radius: 0 0 8px 8px; /* round bottom only */
+    margin: 0;
     overflow-x: auto;
     border: 1px solid var(--border);
+    border-top: none;
+}
+
+.code-block-container {
+    margin: 1.5rem 0;
+}
+
+.code-header {
+    background: #2a2a2a;
+    padding: 8px 16px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+}
+
+.copy-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s;
+}
+
+.copy-btn:hover {
+    color: var(--text-main);
 }
 
 .text code {

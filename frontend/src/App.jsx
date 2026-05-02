@@ -14,6 +14,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [availableModels, setAvailableModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState(localStorage.getItem('gemma_selected_model') || '');
+  const [status, setStatus] = useState('connecting'); // new status state
   
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
@@ -29,9 +30,11 @@ function App() {
 
   // Fetch available models on mount
   useEffect(() => {
+    const API_BASE = "https://gemma4-chat-service.onrender.com";
+
     const fetchModels = async () => {
       try {
-        const response = await fetch('http://localhost:8000/models');
+        const response = await fetch(`${API_BASE}/models`);
         const data = await response.json();
         if (data.models) {
           const names = data.models.map(m => m.name);
@@ -42,7 +45,19 @@ function App() {
         console.error('Failed to fetch models:', err);
       }
     };
+
+    const checkHealth = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/health`);
+        const data = await response.json();
+        if (data.status === 'ok') setStatus('online');
+      } catch (err) {
+        setStatus('offline');
+      }
+    };
+
     fetchModels();
+    checkHealth();
   }, []);
 
   const scrollToBottom = () => {
@@ -73,7 +88,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch("https://gemma4-chat-service.onrender.com/chat", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -123,6 +138,10 @@ function App() {
         </div>
         
         <div className="sidebar-footer">
+          <div className="status-indicator" style={{padding: '10px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <div style={{width: '8px', height: '8px', borderRadius: '50%', background: status === 'online' ? '#00b894' : status === 'offline' ? '#ff7675' : '#fdcb6e'}}></div>
+            <span style={{color: 'var(--text-dim)'}}>System: {status.toUpperCase()}</span>
+          </div>
           <div className="user-profile">
             <div className="avatar">U</div>
             <span>Guest User</span>
@@ -185,7 +204,35 @@ function App() {
                     {m.role === 'user' ? <User size={20} /> : 'G'}
                   </div>
                   <div className="text">
-                    <ReactMarkdown>{m.content}</ReactMarkdown>
+                    <ReactMarkdown
+                      components={{
+                        code({ node, inline, className, children, ...props }) {
+                          const match = /language-(\w+)/.exec(className || '');
+                          return !inline ? (
+                            <div className="code-block-container">
+                              <div className="code-header">
+                                <span>{match ? match[1] : 'code'}</span>
+                                <button 
+                                  className="copy-btn"
+                                  onClick={() => navigator.clipboard.writeText(String(children).replace(/\n$/, ''))}
+                                >
+                                  Copy
+                                </button>
+                              </div>
+                              <pre className={className} {...props}>
+                                <code>{children}</code>
+                              </pre>
+                            </div>
+                          ) : (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        }
+                      }}
+                    >
+                      {m.content}
+                    </ReactMarkdown>
                   </div>
                 </div>
               </div>
